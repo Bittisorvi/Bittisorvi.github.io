@@ -29,7 +29,9 @@ nav a[aria-current]{color:var(--accent)}
 
 /* hero */
 .hero{padding:88px 0 56px}
-.hero-mark{width:112px;height:112px;display:block;margin:0 0 30px;border:1px solid var(--rule);border-radius:12px}
+.hero-lockup{display:flex;align-items:center;gap:24px}
+.hero-mark{width:clamp(56px,5.6vw,72px);height:clamp(56px,5.6vw,72px);display:block;border:1px solid var(--rule);border-radius:12px;flex:none}
+.hero-lockup h1{font-size:clamp(1.65rem,2.75vw,2.1875rem);max-width:none;margin:0}
 .kicker{font:11px/1.6 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 22px}
 h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.6rem,6.2vw,4.5rem);line-height:1.02;letter-spacing:-.02em;margin:0;max-width:16ch}
 .lede{font-size:19px;line-height:1.6;color:var(--body);margin:26px 0 0;max-width:60ch}
@@ -110,9 +112,13 @@ footer.site p{margin:0;max-width:60ch}
   .row .idx{display:none}
   .row .go{padding-top:0}
 }
+@media (max-width:760px){
+  .hero-lockup{display:block}
+  .hero-mark{width:88px;height:88px;margin:0 0 24px}
+  .hero-lockup h1{font-size:clamp(2.2rem,7vw,2.8rem)}
+}
 @media (max-width:560px){
   .hero{padding:56px 0 40px}
-  .hero-mark{width:88px;height:88px;margin-bottom:24px}
   nav ul{gap:16px}
   h1{max-width:none}
   table.spec td:first-child{white-space:normal}
