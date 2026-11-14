@@ -1,0 +1,36 @@
+<svg viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
+  <defs>
+    <pattern id="g" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#15303F" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="55%" stop-color="#07131E" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#07131E" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#07131E"/>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <rect width="1200" height="630" fill="url(#fade)"/>
+
+  <rect x="72" y="96" width="54" height="4" fill="#46D7E8"/>
+
+  <text x="72" y="150" fill="#46D7E8" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="17" letter-spacing="4">TEEMU · KUOSMANEN</text>
+
+  <text x="72" y="252" fill="#E6F1F6" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="66" font-weight="650" letter-spacing="-1.5">Platform engineering,</text>
+  <text x="72" y="326" fill="#E6F1F6" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="66" font-weight="650" letter-spacing="-1.5">run for real.</text>
+
+  <text x="72" y="392" fill="#9CB3BF" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="23">A multi-arch Kubernetes cluster run entirely through Git,</text>
+  <text x="72" y="426" fill="#9CB3BF" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="23">and a fleet of agents shipping into it under review gates.</text>
+
+  <g font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="15" letter-spacing="1.5">
+    <rect x="72" y="486" width="176" height="42" rx="21" fill="none" stroke="#24506A"/>
+    <text x="160" y="513" fill="#B7CBD5" text-anchor="middle">GITOPS</text>
+    <rect x="264" y="486" width="212" height="42" rx="21" fill="none" stroke="#24506A"/>
+    <text x="370" y="513" fill="#B7CBD5" text-anchor="middle">AGENT HARNESS</text>
+    <rect x="492" y="486" width="212" height="42" rx="21" fill="none" stroke="#24506A"/>
+    <text x="598" y="513" fill="#B7CBD5" text-anchor="middle">MEDIA PIPELINE</text>
+  </g>
+
+  <text x="72" y="582" fill="#5F7683" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="15" letter-spacing="2">KUOSMTE.GITHUB.IO</text>
+</svg>

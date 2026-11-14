@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The harness, not the prompts · Teemu</title>
+<meta name="description" content="Six agent profiles, a kanban dispatcher, five verification rungs and a merge gate the architect owns.">
+<link rel="stylesheet" href="styles.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Teemu · platform engineering">
+<meta property="og:title" content="The harness, not the prompts · Teemu">
+<meta property="og:description" content="Six agent profiles, a kanban dispatcher, five verification rungs and a merge gate the architect owns.">
+<meta property="og:url" content="https://bittisorvi.github.io/agent-harness.html">
+<meta property="og:image" content="https://bittisorvi.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">TEEMU<span>·</span>KUOSMANEN</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="homelab.html">Homelab</a></li>
+        <li><a href="agent-harness.html" aria-current="page">Agent harness</a></li>
+        <li><a href="media-pipeline.html">Media pipeline</a></li>
+        <li><a href="deal-finder.html">Deal finder</a></li>
+        <li><a href="small-projects.html">Small projects</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+
+    <div class="hero">
+      <p class="kicker">Case study · Agent infrastructure</p>
+      <h1>The harness, not the prompts.</h1>
+      <p class="lede">A prompt is the easy part. What decides whether agents are useful is the
+        environment around them: who may touch what, when they must stop, and what proves the work.
+        This is that environment: one orchestrator, five specialists, a kanban board as the unit of
+        work, and a verification ladder that starts at the first file write.</p>
+    </div>
+
+    <ul class="facts">
+      <li class="fact"><b>6</b><span>agent profiles</span></li>
+      <li class="fact"><b>5</b><span>verification rungs</span></li>
+      <li class="fact"><b>1</b><span>merge gate</span></li>
+    </ul>
+
+    <div class="diagram">
+<svg viewBox="0 0 960 400" role="img" aria-labelledby="diag-agents-title" xmlns="http://www.w3.org/2000/svg">
+  <title id="diag-agents-title">One orchestrator routes to five specialists. Coders work through a card, a branch and a PR; the architect reviews and merges. Research and visual work leave as artefacts.</title>
+  <defs>
+    <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#46D7E8"/>
+    </marker>
+    <pattern id="grid2" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#15303F" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+
+  <rect width="960" height="400" fill="#07131E"/>
+  <rect width="960" height="400" fill="url(#grid2)"/>
+
+  <!-- connectors -->
+  <path class="ln" d="M136,42 L376,42" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah2)"/>
+  <path class="ln" d="M480,64 L480,86 L100,86 L100,104" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah2)"/>
+  <path class="ln" d="M480,64 L480,86 L290,86 L290,104" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah2)"/>
+  <path class="ln" d="M480,64 L480,104" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah2)"/>
+  <path class="ln" d="M480,64 L480,86 L670,86 L670,104" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah2)"/>
+  <path class="ln" d="M480,64 L480,86 L860,86 L860,104" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah2)"/>
+
+  <!-- only the coders reach the code lane -->
+  <path class="ln" d="M290,168 L290,200" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah2)"/>
+  <path class="ln" d="M480,168 L480,200" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah2)"/>
+  <path class="ln" d="M670,168 L670,200" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah2)"/>
+  <path class="ln" d="M860,168 L860,200" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah2)"/>
+
+  <!-- the architect owns the gate; the gate escalates to a human -->
+  <path class="ln" d="M100,168 L100,298 L340,298" fill="none" stroke="#46D7E8" stroke-width="1.4" stroke-dasharray="4,4" marker-end="url(#ah2)"/>
+  <path class="ln" d="M385,244 L385,276" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah2)"/>
+  <path class="ln" d="M620,298 L775,298" fill="none" stroke="#F0C66E" stroke-width="1.4" stroke-dasharray="4,4" marker-end="url(#ah2)"/>
+
+  <g class="box" data-box="human">
+    <rect x="16" y="20" width="120" height="44" rx="6" fill="#0D2230" stroke="#9CB3BF" stroke-width="1.5"/>
+    <text x="76" y="39" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="12">Teemu</text>
+    <text x="76" y="54" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">intent</text>
+  </g>
+
+  <g class="box" data-box="orchestrator">
+    <rect x="376" y="20" width="208" height="44" rx="6" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="480" y="39" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="12">Orchestrator</text>
+    <text x="480" y="54" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">routes by competence</text>
+  </g>
+
+  <g class="box" data-box="architect">
+    <rect x="15" y="104" width="170" height="64" rx="6" fill="#0D2230" stroke="#66D6A5" stroke-width="1.5"/>
+    <text x="100" y="126" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">architect</text>
+    <text x="100" y="143" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">design · split</text>
+    <text x="100" y="157" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">review · merge</text>
+  </g>
+
+  <g class="box" data-box="lead-coder">
+    <rect x="205" y="104" width="170" height="64" rx="6" fill="#0D2230" stroke="#66D6A5" stroke-width="1.5"/>
+    <text x="290" y="126" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">lead-coder</text>
+    <text x="290" y="143" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">implement · debug</text>
+    <text x="290" y="157" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">branch and PR</text>
+  </g>
+
+  <g class="box" data-box="junior-coder">
+    <rect x="395" y="104" width="170" height="64" rx="6" fill="#0D2230" stroke="#66D6A5" stroke-width="1.5"/>
+    <text x="480" y="126" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">junior-coder</text>
+    <text x="480" y="143" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">one file, small edit</text>
+    <text x="480" y="157" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">branch and PR</text>
+  </g>
+
+  <g class="box" data-box="researcher">
+    <rect x="585" y="104" width="170" height="64" rx="6" fill="#0D2230" stroke="#66D6A5" stroke-width="1.5"/>
+    <text x="670" y="126" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">researcher</text>
+    <text x="670" y="143" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">investigate</text>
+    <text x="670" y="157" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">findings · notes</text>
+  </g>
+
+  <g class="box" data-box="visual">
+    <rect x="775" y="104" width="170" height="64" rx="6" fill="#0D2230" stroke="#66D6A5" stroke-width="1.5"/>
+    <text x="860" y="126" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">visual-creator</text>
+    <text x="860" y="143" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">visuals · identity</text>
+    <text x="860" y="157" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">handoff for placement</text>
+  </g>
+
+  <g class="box" data-box="pipeline">
+    <rect x="205" y="200" width="360" height="44" rx="6" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="385" y="220" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">card → worktree → branch → PR</text>
+    <text x="385" y="235" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">one task, one isolated checkout</text>
+  </g>
+
+  <g class="box" data-box="findings">
+    <rect x="585" y="200" width="170" height="44" rx="6" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="670" y="220" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">findings</text>
+    <text x="670" y="235" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">notes when accepted</text>
+  </g>
+
+  <g class="box" data-box="assets">
+    <rect x="775" y="200" width="170" height="44" rx="6" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="860" y="220" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">visual assets</text>
+    <text x="860" y="235" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">handed off for placement</text>
+  </g>
+
+  <g class="box" data-box="gate">
+    <rect x="340" y="276" width="280" height="44" rx="6" fill="#0D2230" stroke="#F0C66E" stroke-width="1.5"/>
+    <text x="480" y="296" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">architect review and merge</text>
+    <text x="480" y="311" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">solid PRs merge, risky calls escalate</text>
+  </g>
+
+  <g class="box" data-box="human-escalation">
+    <rect x="775" y="276" width="170" height="44" rx="6" fill="#0D2230" stroke="#9CB3BF" stroke-width="1.5"/>
+    <text x="860" y="296" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">Teemu</text>
+    <text x="860" y="311" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">risky call</text>
+  </g>
+
+  <text x="108" y="252" fill="#8FA6B2" font-family="ui-monospace,monospace" font-size="9.5">owns the gate</text>
+  <text x="660" y="290" fill="#8FA6B2" font-family="ui-monospace,monospace" font-size="9.5">escalate</text>
+
+  <text x="480" y="348" text-anchor="middle" fill="#8FA6B2" font-family="ui-monospace,monospace" font-size="10">verification ladder: syntax at write time → repo checks → eval crons → review → verify what deployed</text>
+  <text x="480" y="368" text-anchor="middle" fill="#8FA6B2" font-family="ui-monospace,monospace" font-size="10">shell hooks are allowlisted: no agent can acquire a new capability on its own</text>
+</svg>
+    </div>
+    <p class="figcap">Figure 1. Code work reaches a branch through a card. Research and visual work leave as
+      artefacts and get placed by the profile that owns the code.</p>
+
+    <div class="block">
+      <h3>Why it exists</h3>
+      <p>Unattended agents without a harness produce work nobody can verify, at a volume nobody can
+        review. The harness exists to make autonomy cheap to grant: narrow mandates, explicit
+        permissions, and a check that fires before the mistake is expensive.</p>
+      <p>The configuration stays private because it is bound to one machine's credentials and paths.
+        The shape is what matters here, not the file.</p>
+    </div>
+
+    <div class="block">
+      <h3>How it works: profiles</h3>
+      <p>Each profile is a mandate, not a model setting. The orchestrator picks the cheapest profile
+        that can finish the task, and escalates only after a specialist has failed twice.</p>
+      <table class="spec">
+        <caption>Six profiles, one job each</caption>
+        <thead><tr><th>Profile</th><th>Its mandate</th><th>Outside its mandate</th></tr></thead>
+        <tbody>
+          <tr><td>default</td><td>route, decompose, verify, report</td><td>implementing what a specialist should own</td></tr>
+          <tr><td>architect</td><td>design, split work, review, merge on infra repos</td><td>shipping the implementation itself</td></tr>
+          <tr><td>lead-coder</td><td>features, debugging, infra, CI/CD, deployment</td><td>greenfield system design alone</td></tr>
+          <tr><td>junior-coder</td><td>single-file edits, small well-specified slices</td><td>new dependencies, refactors, design</td></tr>
+          <tr><td>researcher</td><td>investigate, compare, cite, summarise, record findings in the notes vault</td><td>writing the implementation</td></tr>
+          <tr><td>visual-creator</td><td>SVG, identity, diagrams, visual assets, handed off for placement</td><td>placing assets in a codebase, anything non-visual</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="block">
+      <h3>How it works: the verification ladder</h3>
+      <p>Five rungs, cheapest first. A task takes the highest rung that can actually catch its failure
+        mode, not the most impressive one.</p>
+      <table class="spec">
+        <caption>What runs without a human, and what it catches</caption>
+        <thead><tr><th>Rung</th><th>Mechanism</th><th>Failure it catches</th></tr></thead>
+        <tbody>
+          <tr><td>1 · write time</td><td>shell hook runs a syntax check on every file write</td><td>broken syntax, visible to the agent in the same turn</td></tr>
+          <tr><td>2 · repo checks</td><td>shell linting, byte-compilation, unit and end-to-end tests</td><td>logic and style regressions</td></tr>
+          <tr><td>3 · eval crons</td><td>scheduled gates over triage and handoffs, run as cron jobs</td><td>drift across the whole fleet, not one run</td></tr>
+          <tr><td>4 · review gate</td><td>architect review and merge; risky changes escalate to a human</td><td>design and trade-off errors no machine gate sees</td></tr>
+          <tr><td>5 · deployed</td><td>rollout status, endpoint probe, screenshot</td><td>"merged" being mistaken for "works"</td></tr>
+        </tbody>
+      </table>
+      <p>Rung 1 is the reason the rest is affordable: a mistake costs one turn, not one review cycle.</p>
+    </div>
+
+    <div class="block">
+      <h3>How it works: the gates</h3>
+      <ul>
+        <li><strong>Permission by allowlist.</strong> Shell hooks are consented per command pattern. An
+          agent cannot quietly acquire a capability it was not granted.</li>
+        <li><strong>One card, one worktree, one branch.</strong> Parallel work does not collide, and a
+          dead run leaves salvageable work on disk instead of a half-edited main.</li>
+        <li><strong>Pull requests only.</strong> Nothing lands on a protected branch without passing the
+          checks and a merge decision.</li>
+        <li><strong>Merge authority is explicit.</strong> Coders never merge. The architect reviews and
+          merges solid PRs on infrastructure repos, and hands risky or uncertain ones to a human.
+          Credentials, alert routing and product decisions always stop at a human.</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <h3>Lessons learned</h3>
+      <p>Autonomy is not a dial. It is three conditions that must all hold: the work is independent,
+        documented, and split into chunks small enough to check. Two out of three produces confident
+        wrong work, which costs more to unwind than doing it interactively would have cost.</p>
+      <p>And the cheapest gate has to exist first. Anything fancier is decoration until the write-time
+        check is real.</p>
+      <p>What I would do differently:</p>
+      <ul>
+        <li>Roll the write-time check out to every worker profile on day one. Mine shipped for the
+          orchestrator only; the workers that write the most code ran unchecked the longest.</li>
+        <li>Treat "task is parked" as a state the kernel enforces, not a note the next worker reads and
+          respects. It does not hold.</li>
+        <li>Measure the fleet before adding the fifth specialist. Four would have been enough for
+          months.</li>
+      </ul>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="links">
+      <a href="https://github.com/KuosmTE">GitHub</a>
+      <a href="https://www.linkedin.com/in/teemu-kuosmanen-785186122/">LinkedIn</a>
+    </div>
+    <p>Akaa, Finland. Static HTML, with no framework and no build step.</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Small projects · Teemu</title>
+<meta name="description" content="Small tools built because a bigger job needed them: a render service, a mux endpoint, a provider CLI, a multi-model wrapper.">
+<link rel="stylesheet" href="styles.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Teemu · platform engineering">
+<meta property="og:title" content="Small projects · Teemu">
+<meta property="og:description" content="Small tools built because a bigger job needed them: a render service, a mux endpoint, a provider CLI, a multi-model wrapper.">
+<meta property="og:url" content="https://bittisorvi.github.io/small-projects.html">
+<meta property="og:image" content="https://bittisorvi.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">TEEMU<span>·</span>KUOSMANEN</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="homelab.html">Homelab</a></li>
+        <li><a href="agent-harness.html">Agent harness</a></li>
+        <li><a href="media-pipeline.html">Media pipeline</a></li>
+        <li><a href="deal-finder.html">Deal finder</a></li>
+        <li><a href="small-projects.html" aria-current="page">Small projects</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+
+    <div class="hero">
+      <p class="kicker">Case study · Tools</p>
+      <h1>Small tools, built because something bigger needed them.</h1>
+      <p class="lede">None of these started as a project. Each one exists because a specific job could
+        not be done with something already installed, and the honest version of that job turned out to
+        be a few hundred lines rather than a new platform.</p>
+    </div>
+
+    <ul class="facts">
+      <li class="fact"><b>4</b><span>tools in one repo</span></li>
+      <li class="fact"><b>3</b><span>languages</span></li>
+      <li class="fact"><b>1</b><span>shared CI pipeline</span></li>
+    </ul>
+
+    <div class="block">
+      <h3>Why it exists</h3>
+      <p>A monorepo of small services, each with its own Taskfile, its own image and one shared CI
+        workflow. The rule is the same everywhere: solve the narrow problem, keep the interface small,
+        do not grow a platform out of a script.</p>
+      <table class="spec">
+        <caption>Four tools, one repository</caption>
+        <thead><tr><th>Project</th><th>What it does</th><th>Why it exists</th></tr></thead>
+        <tbody>
+          <tr><td>media-svc</td><td>render, TTS and mux behind one HTTP surface</td><td>every reel needed the same three operations</td></tr>
+          <tr><td>reel-mux</td><td>ffmpeg mux and text-overlay endpoint</td><td>n8n cannot call ffmpeg; the work stays in-cluster</td></tr>
+          <tr><td>chutes-media-generator</td><td>CLI for image, video and speech generation</td><td>provider experiments without building a UI</td></tr>
+          <tr><td>ai-responder</td><td>CLI wrapper for multi-model council calls</td><td>the same question to several models, compared side by side</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="block">
+      <h3>How it works</h3>
+      <ul>
+        <li><strong>One Taskfile per app</strong>, included from the root, so a newcomer runs the same
+          three commands for every tool.</li>
+        <li><strong>One image per app</strong>, built by the same workflow with a tag derived from the
+          run, published to a registry path per app.</li>
+        <li><strong>Small surfaces.</strong> media-svc exposes four routes: three operations and a
+          health check. Nothing else, no admin API, no state.</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <h3>Lessons learned</h3>
+      <p>The monorepo is the right shape until one app grows its own release cadence, then it is a
+        drag on everything else. The two projects that left were both the ones with a database.</p>
+      <p>A shared CI workflow is worth it from app two, and painful to retrofit from app five.</p>
+      <p>What I would do differently:</p>
+      <ul>
+        <li>Write the one-line purpose of each app in its README at creation. Half of these had none,
+          which is why this page needed reading code to describe them.</li>
+        <li>Keep the health endpoint from the first commit; it is the cheapest thing to add and the
+          first thing every consumer asks for.</li>
+        <li>Retire loudly. A dead folder left in place reads as "unfinished" rather than "replaced".</li>
+      </ul>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="links">
+      <a href="https://github.com/KuosmTE">GitHub</a>
+      <a href="https://www.linkedin.com/in/teemu-kuosmanen-785186122/">LinkedIn</a>
+    </div>
+    <p>Akaa, Finland. Static HTML, with no framework and no build step.</p>
+  </div>
+</footer>
+
+</body>
+</html>

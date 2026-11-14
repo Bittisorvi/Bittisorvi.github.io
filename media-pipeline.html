@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Media pipeline · Teemu</title>
+<meta name="description" content="A stdlib-only render service and n8n flows that turn one idea file into a finished reel.">
+<link rel="stylesheet" href="styles.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Teemu · platform engineering">
+<meta property="og:title" content="Media pipeline · Teemu">
+<meta property="og:description" content="A stdlib-only render service and n8n flows that turn one idea file into a finished reel.">
+<meta property="og:url" content="https://bittisorvi.github.io/media-pipeline.html">
+<meta property="og:image" content="https://bittisorvi.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">TEEMU<span>·</span>KUOSMANEN</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="homelab.html">Homelab</a></li>
+        <li><a href="agent-harness.html">Agent harness</a></li>
+        <li><a href="media-pipeline.html" aria-current="page">Media pipeline</a></li>
+        <li><a href="deal-finder.html">Deal finder</a></li>
+        <li><a href="small-projects.html">Small projects</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+
+    <div class="hero">
+      <p class="kicker">Case study · Automation</p>
+      <h1>One idea file in, one finished reel out.</h1>
+      <p class="lede">A small HTTP service that renders video and synthesises voice, driven by n8n.
+        No editor, no timeline, no manual export. The composition is a template and the data is a JSON
+        file, so the same reel can be re-rendered for free when the numbers change.</p>
+    </div>
+
+    <ul class="facts">
+      <li class="fact"><b>3</b><span>service endpoints</span></li>
+      <li class="fact"><b>14</b><span>composition templates</span></li>
+      <li class="fact"><b>318</b><span>voices catalogued</span></li>
+      <li class="fact"><b>−14</b><span>LUFS, two-pass</span></li>
+    </ul>
+
+    <div class="diagram">
+<svg viewBox="0 0 960 260" role="img" aria-labelledby="diag-media-title" xmlns="http://www.w3.org/2000/svg">
+  <title id="diag-media-title">An idea file in Git is drained by n8n, rendered by media-svc, muxed to a captioned MP4.</title>
+  <defs>
+    <marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#46D7E8"/>
+    </marker>
+    <pattern id="grid3" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#15303F" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+
+  <rect width="960" height="260" fill="#07131E"/>
+  <rect width="960" height="260" fill="url(#grid3)"/>
+
+  <path class="ln" d="M180,86 L206,86" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah3)"/>
+  <path class="ln" d="M376,86 L402,86" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah3)"/>
+  <path class="ln" d="M572,86 L598,86" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah3)"/>
+  <path class="ln" d="M768,86 L794,86" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah3)"/>
+
+  <g class="box" data-box="idea">
+    <rect x="20" y="56" width="160" height="60" rx="6" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="100" y="80" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11.5">idea.json</text>
+    <text x="100" y="98" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="8.5">one file, in Git</text>
+  </g>
+
+  <g class="box" data-box="n8n">
+    <rect x="206" y="56" width="170" height="60" rx="6" fill="#0D2230" stroke="#66D6A5" stroke-width="1.5"/>
+    <text x="291" y="80" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11.5">n8n drain</text>
+    <text x="291" y="98" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="8.5">scheduled, retries</text>
+  </g>
+
+  <g class="box" data-box="service">
+    <rect x="402" y="56" width="170" height="60" rx="6" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="487" y="80" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11.5">media-svc</text>
+    <text x="487" y="98" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="8.5">/tts · /render · /mux</text>
+  </g>
+
+  <g class="box" data-box="ffmpeg">
+    <rect x="598" y="56" width="170" height="60" rx="6" fill="#0D2230" stroke="#66D6A5" stroke-width="1.5"/>
+    <text x="683" y="80" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11.5">ffmpeg</text>
+    <text x="683" y="98" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="8.5">ducking · loudness</text>
+  </g>
+
+  <g class="box" data-box="output">
+    <rect x="794" y="56" width="146" height="60" rx="6" fill="#0D2230" stroke="#F0C66E" stroke-width="1.5"/>
+    <text x="867" y="80" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11.5">MP4</text>
+    <text x="867" y="98" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="8.5">captioned, −14 LUFS</text>
+  </g>
+
+  <text x="480" y="160" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10.5">every response carries cost, duration and a receipt naming the provider hop that actually served it</text>
+  <text x="480" y="188" text-anchor="middle" fill="#A9BEC9" font-family="ui-monospace,monospace" font-size="10">a language a voice cannot serve is rejected at request time, never a silent wrong-language render</text>
+  <text x="480" y="216" text-anchor="middle" fill="#A9BEC9" font-family="ui-monospace,monospace" font-size="10">templates are deterministic HTML, so a re-render is free and a design change is a diff</text>
+</svg>
+    </div>
+    <p class="figcap">Figure 1. One idea file in, one finished file out. Orchestration and rendering are
+      separate services on purpose.</p>
+
+    <div class="block">
+      <h3>Why it exists</h3>
+      <p>Three endpoints and one contract. <code>/tts</code> turns text into audio through a provider
+        with a language guard and a free-first fallback chain. <code>/render</code> composes a scene
+        graph from a template plus data. <code>/mux</code> puts voice, music bed and burned-in captions
+        into one file. It exists because editing video by hand does not scale past the second idea.</p>
+    </div>
+
+    <div class="block">
+      <h3>How it works</h3>
+      <ul>
+        <li><strong>Templates over editors.</strong> Each template is deterministic HTML/CSS, so a
+          re-render is free and a design change is a diff, not a redo.</li>
+        <li><strong>Language guard.</strong> If a requested voice cannot serve the requested language,
+          the request is rejected at the edge. A silent wrong-language render is worse than a failure.</li>
+        <li><strong>Cost is a header.</strong> Every response carries <code>X-Media-Cost-Usd</code>,
+          duration and a JSON receipt naming which provider hop actually served it, so a fallback
+          never hides a bill.</li>
+        <li><strong>Audio done properly.</strong> Music is ducked under voice, then two-pass loudness
+          normalisation to −14 LUFS / −1.5 dBTP. Off-the-shelf defaults are not good enough for
+          platform playback.</li>
+        <li><strong>Orchestration elsewhere.</strong> n8n owns scheduling, retries and delivery; the
+          service stays stateless and stdlib-only, so it is cheap to run and trivial to replace.</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <h3>Lessons learned</h3>
+      <p>Coupled audio: loudness normalisation that respects a ducked bed, and captions that land on
+        the beat rather than near it. Both are easy to fake and obvious when wrong.</p>
+      <p>And the boring one: verifying a render actually happened. A queued job that never fires looks
+        identical to a job that succeeded, unless you check the artifact afterwards.</p>
+      <p>What I would do differently:</p>
+      <ul>
+        <li>Pick the caption timing model before the third template, not after. Retrofitting it costs
+          more each time.</li>
+        <li>Keep the service stateless from the first commit. Every piece of in-process state became a
+          reason a retry behaved differently from a first run.</li>
+        <li>Screenshot every render, not just the final mux. The expensive failures were layout, not
+          encoding.</li>
+      </ul>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="links">
+      <a href="https://github.com/KuosmTE">GitHub</a>
+      <a href="https://www.linkedin.com/in/teemu-kuosmanen-785186122/">LinkedIn</a>
+    </div>
+    <p>Akaa, Finland. Static HTML, with no framework and no build step.</p>
+  </div>
+</footer>
+
+</body>
+</html>

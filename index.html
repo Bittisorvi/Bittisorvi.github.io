@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Teemu · platform &amp; agent engineering</title>
+<meta name="description" content="A multi-arch Kubernetes cluster run entirely through Git, and a fleet of AI agents shipping into it under review gates.">
+<link rel="stylesheet" href="styles.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Teemu · platform engineering">
+<meta property="og:title" content="Teemu · platform &amp; agent engineering">
+<meta property="og:description" content="A multi-arch Kubernetes cluster run entirely through Git, and a fleet of AI agents shipping into it under review gates.">
+<meta property="og:url" content="https://bittisorvi.github.io/">
+<meta property="og:image" content="https://bittisorvi.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">TEEMU<span>·</span>KUOSMANEN</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="homelab.html">Homelab</a></li>
+        <li><a href="agent-harness.html">Agent harness</a></li>
+        <li><a href="media-pipeline.html">Media pipeline</a></li>
+        <li><a href="deal-finder.html">Deal finder</a></li>
+        <li><a href="small-projects.html">Small projects</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+
+    <div class="hero">
+      <p class="kicker">Platform · GitOps · Agent harness</p>
+      <h1>Platform engineering, small enough to see whole.</h1>
+      <p class="note disclosure"><span class="stamp">Disclosure</span>Yes, my AI agents built parts of
+        this site, occasionally without adult supervision. <strong>The content is mine. The robots are
+        innocent.</strong></p>
+    </div>
+
+    <section aria-labelledby="about">
+      <h2 id="about">About</h2>
+      <div class="block">
+        <p>I am a service and DevOps architect based in Akaa, Finland. My work history is on
+          <a href="https://www.linkedin.com/in/teemu-kuosmanen-785186122/">LinkedIn</a>, but the short
+          version is that I have worked in IT since the early 2000s, and I started building and playing
+          with computers in the 1980s and 1990s.</p>
+        <p>My homelab is my test bench, my learning site and my own small production environment. A
+          couple of cheap machines run a K3s cluster with dozens of apps, persistent storage on a NAS and
+          every workload delivered by GitOps. I try to keep things simple, but it is a full environment,
+          so I can keep my job skills sharp. I keep the important parts safe enough that breaking
+          something does not affect anything I rely on.</p>
+        <p>I am not a developer by trade, but I build my own services and automations. The agentic
+          environment is there to make that work more efficient: narrow mandates, explicit permissions,
+          and a verification ladder that starts at the first file write.</p>
+        <p>Money is tight, so I spend about twenty dollars a month in total across a couple of AI
+          providers. That buys some redundancy if one is down or its token budget runs out, and it means
+          the harness has to stay efficient. Much of the work is improving my agent profiles, skills and
+          tools so I get as much done as possible from that budget. So far it seems to be working.
+          Everything described here runs in my own environment.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="work">
+      <h2 id="work">Selected work</h2>
+      <div class="rows">
+
+        <a class="row" href="homelab.html">
+          <span class="idx">01</span>
+          <div>
+            <h3>homelab-core: the machine layer</h3>
+            <p>Ansible playbooks and Taskfiles that provision and harden a two-node, two-architecture
+              K3s cluster: OS baseline, firewall, install, join, upgrade. Everything above it is
+              delivered by Flux from Git, 62 pods across 25 namespaces.</p>
+            <ul class="chips"><li>Ansible</li><li>K3s</li><li>ARM64</li><li>Flux</li></ul>
+          </div>
+          <span class="go">Read case study →</span>
+        </a>
+
+        <a class="row" href="agent-harness.html">
+          <span class="idx">02</span>
+          <div>
+            <h3>Agent harness</h3>
+            <p>Six agent profiles and a kanban dispatcher, with a five-rung verification ladder that
+              catches a broken file the moment it is written, not at review.</p>
+            <ul class="chips"><li>Orchestration</li><li>Kanban</li><li>Eval gates</li></ul>
+          </div>
+          <span class="go">Read case study →</span>
+        </a>
+
+        <a class="row" href="media-pipeline.html">
+          <span class="idx">03</span>
+          <div>
+            <h3>Media pipeline</h3>
+            <p>A stdlib-only render service and n8n flows that turn one idea file into a captioned,
+              loudness-normalised reel, with a per-request cost receipt.</p>
+            <ul class="chips"><li>n8n</li><li>ffmpeg</li><li>Python</li><li>TTS</li></ul>
+          </div>
+          <span class="go">Read case study →</span>
+        </a>
+
+        <a class="row" href="deal-finder.html">
+          <span class="idx">04</span>
+          <div>
+            <h3>Deal finder</h3>
+            <p>A weekly n8n flow that checks a list of store pages, groups the offers by category, and
+              posts one Discord thread per category. It keeps a 30-day deal store, so an unchanged offer
+              stays quiet while a price drop re-alerts.</p>
+            <ul class="chips"><li>n8n</li><li>JavaScript</li><li>Discord</li></ul>
+          </div>
+          <span class="go">Read case study →</span>
+        </a>
+
+        <a class="row" href="small-projects.html">
+          <span class="idx">05</span>
+          <div>
+            <h3>Small projects</h3>
+            <p>Four small tools in one repository: a render service, a mux endpoint, a media generator
+              CLI, and a multi-model wrapper. Each one exists because a bigger project needed it.</p>
+            <ul class="chips"><li>Python</li><li>TypeScript</li><li>Bash</li></ul>
+          </div>
+          <span class="go">Read case study →</span>
+        </a>
+
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="links">
+      <a href="https://github.com/KuosmTE">GitHub</a>
+      <a href="https://www.linkedin.com/in/teemu-kuosmanen-785186122/">LinkedIn</a>
+    </div>
+    <p>Akaa, Finland. Static HTML, with no framework and no build step.</p>
+  </div>
+</footer>
+
+</body>
+</html>

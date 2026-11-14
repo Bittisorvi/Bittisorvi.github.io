@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="1000" height="520" role="img" aria-labelledby="ttl">
+<title id="ttl">Work process: from a request through routing, card and worker to review-merge and live</title>
+<!--
+  Architecture — layer 5: the work process.
+  Generic loop: no file names, no PR numbers, no card ids.
+  Static, self-contained (internal styles only), no script, no remote asset.
+  Update path: edit boxes here; keep every <text> inside its <g class="box"> rect
+  (scripts/check_svg_labels.py asserts this).
+-->
+<style>
+  text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;fill:#e6e9ef}
+  .ttl{font-size:13px;font-weight:700}
+  .sub{font-size:9.5px;fill:#9aa3b5}
+  .li{font-size:11px;fill:#c7cdd8}
+  .cap{font-size:10px;font-weight:700;letter-spacing:.12em;fill:#6ee7b7}
+  .al{font-size:9.5px;fill:#9aa3b5;paint-order:stroke;stroke:#0f1115;stroke-width:3px;stroke-linejoin:round}
+  .bx{stroke-width:1.4}
+  .ext{fill:rgba(30,41,59,.6);stroke:#9aa3b5}
+  .net{fill:rgba(8,51,68,.5);stroke:#9ec5ff}
+  .git{fill:rgba(120,53,15,.35);stroke:#fbbf24}
+  .sec{fill:rgba(136,19,55,.35);stroke:#fca5a5}
+  .node{fill:rgba(6,78,59,.35);stroke:#34d399}
+  .sto{fill:rgba(76,29,149,.35);stroke:#c4b5fd}
+  .ln{fill:none;stroke:#64748b;stroke-width:1.4}
+  .ln.dash{stroke-dasharray:4 3}
+  .rl{fill:rgba(30,41,59,.45);stroke:#9aa3b5;stroke-width:1;stroke-dasharray:4 3}
+  .rlttl{font-size:11.5px;font-weight:700}
+</style>
+<defs>
+  <marker id="arw" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+    <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+  </marker>
+</defs>
+
+<!-- edges first: they render behind the boxes -->
+<path class="ln" d="M250,145 L266,145" marker-end="url(#arw)"/>
+<path class="ln" d="M492,145 L508,145" marker-end="url(#arw)"/>
+<path class="ln" d="M734,145 L750,145" marker-end="url(#arw)"/>
+<path class="ln" d="M863,200 L863,235 L114,235 L114,270" marker-end="url(#arw)"/>
+<path class="ln" d="M204,320 L217,320" marker-end="url(#arw)"/>
+<path class="ln" d="M397,320 L410,320" marker-end="url(#arw)"/>
+<path class="ln" d="M590,320 L603,320" marker-end="url(#arw)"/>
+<path class="ln" d="M783,320 L796,320" marker-end="url(#arw)"/>
+<path class="ln dash" d="M340,90 L340,74" marker-end="url(#arw)"/>
+<path class="ln dash" d="M620,90 L620,74" marker-end="url(#arw)"/>
+<path class="ln dash" d="M114,410 L114,370" marker-end="url(#arw)"/>
+<path class="ln dash" d="M307,410 L307,370" marker-end="url(#arw)"/>
+<path class="ln dash" d="M886,370 L886,410" marker-end="url(#arw)"/>
+
+<text class="al" x="430" y="229">next step</text>
+
+<!-- rails: the written why and the evidence -->
+<g class="box" data-box="vault">
+  <rect class="rl" x="266" y="14" width="468" height="60" rx="6"/>
+  <text class="rlttl" x="282" y="38">Memory &amp; notes</text>
+  <text class="sub" x="282" y="58">facts · findings · decisions, written down</text>
+</g>
+<g class="box" data-box="openspec">
+  <rect class="rl" x="24" y="410" width="446" height="64" rx="6"/>
+  <text class="rlttl" x="40" y="434">OpenSpec</text>
+  <text class="sub" x="40" y="452">proposal → specs → tasks → archive</text>
+  <text class="sub" x="40" y="468">the why is recorded, not just the what</text>
+</g>
+<g class="box" data-box="verify">
+  <rect class="rl" x="736" y="410" width="240" height="64" rx="6"/>
+  <text class="rlttl" x="752" y="434">verify (live)</text>
+  <text class="sub" x="752" y="452">evidence, not a claim</text>
+  <text class="sub" x="752" y="468">the loop closes</text>
+</g>
+
+<!-- row 1: request, routing, profiles, card -->
+<g class="box" data-box="teemu">
+  <rect class="bx ext" x="24" y="90" width="226" height="110" rx="6"/>
+  <text class="ttl" x="40" y="114">Operator (chat)</text>
+  <text class="sub" x="40" y="136">request · idea · correction</text>
+</g>
+<g class="box" data-box="reititys">
+  <rect class="bx node" x="266" y="90" width="226" height="110" rx="6"/>
+  <text class="ttl" x="282" y="114">Orchestrator</text>
+  <text class="sub" x="282" y="136">routing: self · specialist</text>
+  <text class="sub" x="282" y="154">· cheapest path</text>
+</g>
+<g class="box" data-box="profiilit">
+  <rect class="bx node" x="508" y="90" width="226" height="110" rx="6"/>
+  <text class="ttl" x="524" y="114">Profiles</text>
+  <text class="li" x="524" y="134">architect · design / review</text>
+  <text class="li" x="524" y="152">lead-coder · implementation</text>
+  <text class="li" x="524" y="170">researcher · investigation</text>
+  <text class="li" x="524" y="188">visual-creator · visuals</text>
+</g>
+<g class="box" data-box="kanban">
+  <rect class="bx net" x="750" y="90" width="226" height="110" rx="6"/>
+  <text class="ttl" x="766" y="114">Kanban card</text>
+  <text class="sub" x="766" y="136">scope + acceptance</text>
+  <text class="sub" x="766" y="154">one card, one PR</text>
+</g>
+
+<!-- row 2: worker, PR, review-merge, reconcile, live -->
+<g class="box" data-box="worker">
+  <rect class="bx node" x="24" y="270" width="180" height="100" rx="6"/>
+  <text class="ttl" x="38" y="294">Worker + worktree</text>
+  <text class="sub" x="38" y="316">branch · acceptance checks</text>
+</g>
+<g class="box" data-box="pr">
+  <rect class="bx git" x="217" y="270" width="180" height="100" rx="6"/>
+  <text class="ttl" x="231" y="294">Branch + draft PR</text>
+  <text class="sub" x="231" y="316">draft, no merge</text>
+</g>
+<g class="box" data-box="review">
+  <rect class="bx sec" x="410" y="270" width="180" height="100" rx="6"/>
+  <text class="ttl" x="424" y="294">Architect review</text>
+  <text class="sub" x="424" y="316">+ merge</text>
+  <text class="sub" x="424" y="332">uncertain → human</text>
+</g>
+<g class="box" data-box="flux">
+  <rect class="bx git" x="603" y="270" width="180" height="100" rx="6"/>
+  <text class="ttl" x="617" y="294">GitOps reconcile</text>
+  <text class="sub" x="617" y="316">~5 min</text>
+</g>
+<g class="box" data-box="live">
+  <rect class="bx node" x="796" y="270" width="180" height="100" rx="6"/>
+  <text class="ttl" x="810" y="294">Cluster / live</text>
+  <text class="sub" x="810" y="316">services</text>
+  <text class="sub" x="810" y="332">services</text>
+</g>
+</svg>

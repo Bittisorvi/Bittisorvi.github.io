@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 630" width="1000" height="630" role="img" aria-labelledby="ttl">
+<title id="ttl">Base infrastructure: home network, k3s cluster, external services and QNAP storage</title>
+<!--
+  Architecture — layer 1: basic infrastructure.
+  Static, self-contained (internal styles only), no script, no remote asset.
+  Update path: edit boxes here; keep every <text> inside its <g class="box"> rect
+  (scripts/check_svg_labels.py asserts this).
+-->
+<style>
+  text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;fill:#e6e9ef}
+  .ttl{font-size:13px;font-weight:700}
+  .sub{font-size:9.5px;fill:#9aa3b5}
+  .li{font-size:11px;fill:#c7cdd8}
+  .cap{font-size:10px;font-weight:700;letter-spacing:.12em;fill:#6ee7b7}
+  .al{font-size:9.5px;fill:#9aa3b5;paint-order:stroke;stroke:#0f1115;stroke-width:3px;stroke-linejoin:round}
+  .bx{stroke-width:1.4}
+  .ext{fill:rgba(30,41,59,.6);stroke:#94a3b8}
+  .net{fill:rgba(8,51,68,.5);stroke:#22d3ee}
+  .git{fill:rgba(120,53,15,.35);stroke:#fbbf24}
+  .sec{fill:rgba(136,19,55,.35);stroke:#fb7185}
+  .node{fill:rgba(6,78,59,.35);stroke:#34d399}
+  .sto{fill:rgba(76,29,149,.35);stroke:#a78bfa}
+  .bnd{fill:rgba(6,78,59,.08);stroke:#34d399;stroke-width:1.2;stroke-dasharray:8 5}
+  .ln{fill:none;stroke:#64748b;stroke-width:1.4}
+  .ln.dash{stroke-dasharray:4 3}
+</style>
+<defs>
+  <marker id="arw" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+    <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+  </marker>
+</defs>
+
+<!-- edges first: they render behind the boxes -->
+<path class="ln" d="M120,100 L120,150 L132,150 L132,185" marker-end="url(#arw)"/>
+<path class="ln dash" d="M200,100 L200,130 L316,130 L316,185" marker-end="url(#arw)"/>
+<path class="ln" d="M428,100 L428,140 L500,140 L500,185" marker-end="url(#arw)"/>
+<path class="ln" d="M652,100 L652,140 L684,140 L684,185" marker-end="url(#arw)"/>
+<path class="ln" d="M876,100 L876,185" marker-end="url(#arw)"/>
+<path class="ln" d="M500,480 L500,519" marker-end="url(#arw)"/>
+
+<text class="al" x="70" y="148">HTTPS</text>
+<text class="al" x="238" y="124">DNS</text>
+<text class="al" x="432" y="134">git reconcile</text>
+<text class="al" x="594" y="134">secrets</text>
+<text class="al" x="884" y="136">DNS-01</text>
+<text class="al" x="508" y="502">NFS / iSCSI</text>
+
+<!-- home network -->
+<g class="box" data-box="kotiverkko">
+  <rect class="bx net" x="24" y="40" width="280" height="60" rx="6"/>
+  <text class="ttl" x="40" y="66">Home network</text>
+  <text class="sub" x="40" y="84">browsers · phones · laptops</text>
+</g>
+
+<!-- external services -->
+<g class="box" data-box="github">
+  <rect class="bx ext" x="328" y="40" width="200" height="60" rx="6"/>
+  <text class="ttl" x="344" y="66">GitHub</text>
+  <text class="sub" x="344" y="84">repos · CI · images</text>
+</g>
+<g class="box" data-box="secret-store">
+  <rect class="bx ext" x="552" y="40" width="200" height="60" rx="6"/>
+  <text class="ttl" x="568" y="66">Secret store</text>
+  <text class="sub" x="568" y="84">secrets</text>
+</g>
+<g class="box" data-box="cloudflare">
+  <rect class="bx ext" x="776" y="40" width="200" height="60" rx="6"/>
+  <text class="ttl" x="792" y="66">DNS provider</text>
+  <text class="sub" x="792" y="84">ACME DNS-01</text>
+</g>
+
+<!-- cluster -->
+<rect class="bnd" x="24" y="150" width="952" height="330" rx="10"/>
+<text class="cap" x="44" y="171">K3S CLUSTER · 2 NODES · 2 ARCHITECTURES</text>
+
+<g class="box" data-box="envoy">
+  <rect class="bx net" x="48" y="186" width="168" height="60" rx="6"/>
+  <text class="ttl" x="60" y="212">Ingress gateway</text>
+  <text class="sub" x="60" y="230">HTTPS routing</text>
+</g>
+<g class="box" data-box="pihole">
+  <rect class="bx net" x="232" y="186" width="168" height="60" rx="6"/>
+  <text class="ttl" x="244" y="212">Local DNS</text>
+  <text class="sub" x="244" y="230">internal names</text>
+</g>
+<g class="box" data-box="flux">
+  <rect class="bx git" x="416" y="186" width="168" height="60" rx="6"/>
+  <text class="ttl" x="428" y="212">Flux</text>
+  <text class="sub" x="428" y="230">GitOps reconcile</text>
+</g>
+<g class="box" data-box="extsecrets">
+  <rect class="bx sec" x="600" y="186" width="168" height="60" rx="6"/>
+  <text class="ttl" x="612" y="212">External Secrets</text>
+  <text class="sub" x="612" y="230">→ k8s Secret</text>
+</g>
+<g class="box" data-box="certmanager">
+  <rect class="bx sec" x="784" y="186" width="168" height="60" rx="6"/>
+  <text class="ttl" x="796" y="212">cert-manager</text>
+  <text class="sub" x="796" y="230">TLS certificates</text>
+</g>
+
+<g class="box" data-box="control-plane node">
+  <rect class="bx node" x="48" y="280" width="434" height="156" rx="6"/>
+  <text class="ttl" x="64" y="308">control-plane node</text>
+  <text class="sub" x="64" y="326">amd64 · 4 vCPU · 16 GB · control plane</text>
+  <text class="li" x="64" y="358">· metrics · logs · dashboards</text>
+  <text class="li" x="64" y="380">· agent runtime · workflows · render service</text>
+  <text class="li" x="64" y="402">· storage driver · NAS volumes</text>
+</g>
+<g class="box" data-box="worker node">
+  <rect class="bx node" x="506" y="280" width="434" height="156" rx="6"/>
+  <text class="ttl" x="522" y="308">worker node</text>
+  <text class="sub" x="522" y="326">arm64 · 4 vCPU · 4 GB · worker</text>
+  <text class="li" x="522" y="358">· home automation</text>
+  <text class="li" x="522" y="380">· start page</text>
+  <text class="li" x="522" y="402">· arm64 workloads</text>
+</g>
+
+<!-- storage -->
+<g class="box" data-box="qnap">
+  <rect class="bx sto" x="350" y="520" width="300" height="76" rx="6"/>
+  <text class="ttl" x="366" y="550">NAS</text>
+  <text class="sub" x="366" y="568">NFS / iSCSI → persistent volumes</text>
+</g>
+</svg>

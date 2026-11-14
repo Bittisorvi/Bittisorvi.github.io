@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Architecture · Teemu</title>
+<meta name="description" content="The baseline every cluster needs, then four layers of a small self-hosted platform: machines, delivery, agent runtime and the work process that changes any of it.">
+<link rel="stylesheet" href="styles.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Teemu · platform engineering">
+<meta property="og:title" content="Architecture · Teemu">
+<meta property="og:description" content="The baseline every cluster needs, then four layers of a small self-hosted platform: machines, delivery, agent runtime and the work process that changes any of it.">
+<meta property="og:url" content="https://bittisorvi.github.io/architecture.html">
+<meta property="og:image" content="https://bittisorvi.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">TEEMU<span>·</span>KUOSMANEN</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="architecture.html" aria-current="page">Architecture</a></li>
+        <li><a href="homelab.html">Homelab</a></li>
+        <li><a href="agent-harness.html">Agent harness</a></li>
+        <li><a href="media-pipeline.html">Media pipeline</a></li>
+        <li><a href="deal-finder.html">Deal finder</a></li>
+        <li><a href="small-projects.html">Small projects</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+
+    <div class="hero">
+      <p class="kicker">Architecture · how the pieces fit</p>
+      <h1>The core and four layers.</h1>
+      <p class="lede">One small cluster, two nodes, one rule: nothing is configured by hand. The machines are
+        provisioned by Ansible, everything above them is declared in Git and reconciled by Flux, and the
+        agent fleet that works on it ships through the same gates as a human change.</p>
+    </div>
+
+    <div class="block">
+      <h3>The baseline</h3>
+      <p>A cluster is not a pile of YAML. It is a small system that has to be built, fed, watched and
+        kept honest. The baseline is the core. It is the part I would not skip: the pieces that are
+        boring on purpose, so the interesting work on top has something solid to stand on.</p>
+      <p>The order matters. Provisioning comes first, because nothing above it exists until the
+        machines do. GitOps comes next, because every change above the machine should be reviewable.
+        Access and data make the workloads reachable and durable. Security and observability are the
+        trust layer, the two things that let you believe the rest of it. Workloads sit on top, which is
+        the only reason any of it exists.</p>
+      <div class="diagram">
+<svg viewBox="0 0 960 400" role="img" aria-labelledby="diag-baseline-title" xmlns="http://www.w3.org/2000/svg">
+  <title id="diag-baseline-title">The baseline as a five-tier pyramid: provisioning at the base, then GitOps, access and data, security and observability, and workloads at the top.</title>
+  <defs>
+    <pattern id="grid5" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#15303F" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+
+  <rect width="960" height="400" fill="#07131E"/>
+  <rect width="960" height="400" fill="url(#grid5)"/>
+
+  <g class="box" data-box="workloads">
+    <polygon points="390,20 570,20 630,100 330,100" fill="#0D2230" stroke="#F0C66E" stroke-width="1.5"/>
+    <text x="480" y="58" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11" letter-spacing=".12em">WORKLOADS</text>
+    <text x="480" y="78" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">what you actually run</text>
+  </g>
+
+  <g class="box" data-box="security-observability">
+    <polygon points="330,100 630,100 690,170 270,170" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="480" y="132" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11" letter-spacing=".12em">SECURITY &amp; OBSERVABILITY</text>
+    <text x="480" y="150" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">scan · policy · metrics · logs · dashboards · alerts</text>
+  </g>
+
+  <g class="box" data-box="access-data">
+    <polygon points="270,170 690,170 750,240 210,240" fill="#0D2230" stroke="#66D6A5" stroke-width="1.5"/>
+    <text x="480" y="202" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11" letter-spacing=".12em">ACCESS &amp; DATA</text>
+    <text x="480" y="220" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">gateway · certs · DNS · secrets · storage · backups</text>
+  </g>
+
+  <g class="box" data-box="gitops">
+    <polygon points="210,240 750,240 800,300 160,300" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="480" y="268" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11" letter-spacing=".12em">GITOPS</text>
+    <text x="480" y="286" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">Git + PR · CI · registry · Flux</text>
+  </g>
+
+  <g class="box" data-box="provisioning">
+    <polygon points="160,300 800,300 850,360 110,360" fill="#0D2230" stroke="#66D6A5" stroke-width="1.5"/>
+    <text x="480" y="328" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11" letter-spacing=".12em">PROVISIONING</text>
+    <text x="480" y="346" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">Ansible · OS · kubelet · CNI · storage driver</text>
+  </g>
+
+  <text x="480" y="390" text-anchor="middle" fill="#8FA6B2" font-family="ui-monospace,monospace" font-size="9.5">the baseline holds the workloads up</text>
+</svg>
+      </div>
+      <p class="figcap">Figure 0. The baseline, from the machines up to the workloads.</p>
+      <table class="spec">
+        <caption>What this cluster runs</caption>
+        <thead><tr><th>Layer</th><th>Here</th></tr></thead>
+        <tbody>
+          <tr><td>Provisioning</td><td>Ansible and Taskfiles</td></tr>
+          <tr><td>GitOps</td><td>Flux, GitHub Actions and a container registry</td></tr>
+          <tr><td>Access</td><td>Envoy Gateway, cert-manager and Pi-hole</td></tr>
+          <tr><td>Data</td><td>External Secrets, iSCSI CSI, snapshot-controller and a nightly database backup</td></tr>
+          <tr><td>Observability</td><td>VictoriaMetrics, Grafana, VictoriaLogs, Jaeger with OpenTelemetry, blackbox-exporter and Alertmanager to Discord</td></tr>
+          <tr><td>Security</td><td>Trivy Operator</td></tr>
+        </tbody>
+      </table>
+      <p class="note"><strong>Next up:</strong> a policy engine, network policies and resource quotas,
+        then a self-service PR flow for GitOps. The scanner is in place; the rails around it are next.
+        Crossplane is on the list too, but it is overboard for a small on-prem homelab, so I will try
+        it as a demo to learn the shape.</p>
+      <p class="note"><strong>Looking into:</strong> an internal developer portal, Backstage or Red Hat
+        Developer Hub on-prem if the cluster has room, or a small SaaS like Port, as a main view and
+        trigger for the processes, and a stakeholder view of the homelab.</p>
+    </div>
+
+    <div class="block">
+      <h3>Infrastructure</h3>
+      <p>Two nodes on different architectures, one control plane and one worker, sized for what they actually
+        run: storage-heavy workloads on one, edge and home-automation workloads on the other. An ingress
+        gateway terminates TLS, local DNS answers internal names, a certificate manager handles issuance, and
+        secrets arrive from an external store rather than from a file in a repo. Persistent volumes are
+        network storage, so a node can be rebuilt without losing data.</p>
+    </div>
+    <div class="diagram">
+      <img src="arch/arch-infra.svg" alt="Home network, Git hosting, secret store and DNS provider above a two-node cluster with ingress, local DNS, GitOps, external secrets and certificate management, with network storage underneath.">
+    </div>
+    <p class="figcap">Figure 1. Infrastructure. External dependencies on top, cluster in the middle, storage
+      underneath.</p>
+
+    <div class="block">
+      <h3>Delivery</h3>
+      <p>Four repositories, each with one job. The machine repo provisions and hardens the nodes. The deployment
+        repo holds the manifests Flux reconciles: applications, routes, dashboards, alerts. The application repo
+        holds the code and its tests; CI builds an image per app, tagged with the build id, and the deployment
+        repo pins that tag. The fourth repo holds workflow prompts and JSON schemas: no runnable service, only
+        the contracts the workflows fetch at run time.</p>
+      <p>The point of the split is that each artefact has exactly one owner. Nothing is copied between repos,
+        and no build ever writes into the deployment tree.</p>
+    </div>
+    <div class="diagram">
+      <img src="arch/arch-repos.svg" alt="Machine, deployment, application and workflow-asset repositories feeding CI, a registry, and the cluster through GitOps.">
+    </div>
+    <p class="figcap">Figure 2. What each repository produces, and what picks it up.</p>
+
+    <div class="block">
+      <h3>The agent runtime</h3>
+      <p>One pod. Inside it: a root orchestrator that routes work, a set of specialist profiles with narrow
+        mandates, a scheduler for recurring jobs, and a dispatcher that turns board cards into workers in their
+        own worktrees. State lives in two volumes (memory and facts in one, checkouts and the notes vault in
+        the other), so the pod can be replaced without losing either. Everything external is a dependency with a
+        name: chat, an HTTP API, hosted models, tool servers, a web extractor, and the Kubernetes API through a
+        namespaced service account.</p>
+    </div>
+    <div class="diagram">
+      <img src="arch/arch-agent-runtime.svg" alt="One agent pod with ingress, orchestrator, specialist profiles, scheduler, task dispatcher, two data volumes, and external dependencies.">
+    </div>
+    <p class="figcap">Figure 3. One pod, narrow mandates, two volumes, explicit external dependencies.</p>
+
+    <div class="block">
+      <h3>The work process</h3>
+      <p>A request arrives in chat, gets routed to the cheapest profile that can do it, and becomes a card with a
+        scope and an acceptance line. A worker takes the card in its own worktree, pushes a branch and opens a
+        draft PR. A review gate decides: merge, send back with changes, or escalate to a human when the call is
+        not the agent's to make. Flux reconciles the merge into the cluster, and the change is verified live
+        rather than assumed.</p>
+      <p>Two rails run alongside the loop: the written why (proposals, specs, findings, decisions) and the
+        evidence that the thing actually works. A gate that cannot fail is worse than no gate, so every check
+        here is able to turn red.</p>
+    </div>
+    <div class="diagram">
+      <img src="arch/arch-process.svg" alt="Request, orchestrator routing, profiles, card, worker, draft PR, review and merge, GitOps reconcile, live cluster, with memory and verification rails.">
+    </div>
+    <p class="figcap">Figure 4. The loop from request to live, with the why and the evidence attached.</p>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="links">
+      <a href="https://github.com/KuosmTE">GitHub</a>
+      <a href="https://www.linkedin.com/in/teemu-kuosmanen-785186122/">LinkedIn</a>
+    </div>
+    <p>Akaa, Finland. Static HTML, with no framework and no build step.</p>
+  </div>
+</footer>
+
+</body>
+</html>

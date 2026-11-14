@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Two machines, one seam · Teemu</title>
+<meta name="description" content="A multi-arch K3s cluster: Ansible provisions the machines, Flux delivers everything above them from Git.">
+<link rel="stylesheet" href="styles.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Teemu · platform engineering">
+<meta property="og:title" content="Two machines, one seam · Teemu">
+<meta property="og:description" content="A multi-arch K3s cluster: Ansible provisions the machines, Flux delivers everything above them from Git.">
+<meta property="og:url" content="https://bittisorvi.github.io/homelab.html">
+<meta property="og:image" content="https://bittisorvi.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">TEEMU<span>·</span>KUOSMANEN</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="homelab.html" aria-current="page">Homelab</a></li>
+        <li><a href="agent-harness.html">Agent harness</a></li>
+        <li><a href="media-pipeline.html">Media pipeline</a></li>
+        <li><a href="deal-finder.html">Deal finder</a></li>
+        <li><a href="small-projects.html">Small projects</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+
+    <div class="hero">
+      <p class="kicker">Case study · Infrastructure</p>
+      <h1>Two machines, one seam, nothing applied by hand.</h1>
+      <p class="lede">Second-hand hardware, one x86 box and one ARM board, carrying a cluster that runs
+        like production. Ansible provisions the machines. Flux delivers everything above them from Git,
+        and the two never share a tool.</p>
+    </div>
+
+    <ul class="facts">
+      <li class="fact"><b>2</b><span>nodes, two architectures</span></li>
+      <li class="fact"><b>62</b><span>running pods</span></li>
+      <li class="fact"><b>25</b><span>namespaces</span></li>
+      <li class="fact"><b>14</b><span>persistent volumes</span></li>
+    </ul>
+
+    <div class="diagram">
+<svg viewBox="0 0 960 340" role="img" aria-labelledby="diag-homelab-title" xmlns="http://www.w3.org/2000/svg">
+  <title id="diag-homelab-title">Machines, delivery and applications: Ansible provisions the nodes, Flux delivers everything above them.</title>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#46D7E8"/>
+    </marker>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#15303F" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+
+  <rect width="960" height="340" fill="#07131E"/>
+  <rect width="960" height="340" fill="url(#grid)"/>
+
+  <!-- connectors first, behind boxes -->
+  <path class="ln" d="M280,42 L330,42 L330,134 L378,134" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah)"/>
+  <path class="ln" d="M680,42 L630,42 L630,186" fill="none" stroke="#46D7E8" stroke-width="1.4" stroke-dasharray="4,4" marker-end="url(#ah)"/>
+  <path class="ln" d="M480,158 L480,188" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah)"/>
+  <path class="ln" d="M800,158 L800,188" fill="none" stroke="#F0C66E" stroke-width="1.4" stroke-dasharray="4,4" marker-end="url(#ah)"/>
+
+  <rect class="bnd" x="28" y="190" width="904" height="126" rx="12" fill="none" stroke="#24506A" stroke-width="1" stroke-dasharray="8,5"/>
+  <text x="44" y="185" fill="#6EE7B7" font-family="ui-monospace,monospace" font-size="9" letter-spacing=".14em">K3S CLUSTER · 2 NODES</text>
+
+  <g class="box" data-box="git-gitops">
+    <rect x="40" y="16" width="240" height="52" rx="6" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="160" y="37" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="12">homelab-gitops</text>
+    <text x="160" y="53" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">Git · Flux manifests</text>
+  </g>
+
+  <g class="box" data-box="git-projects">
+    <rect x="680" y="16" width="240" height="52" rx="6" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="800" y="37" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="12">homelab-projects</text>
+    <text x="800" y="53" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">Git · application code</text>
+  </g>
+
+  <g class="box" data-box="ansible">
+    <rect x="680" y="110" width="240" height="48" rx="6" fill="#0D2230" stroke="#F0C66E" stroke-width="1.5"/>
+    <text x="800" y="130" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="12">homelab-core</text>
+    <text x="800" y="146" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">Ansible · provisioning</text>
+  </g>
+
+  <g class="box" data-box="flux">
+    <rect x="380" y="110" width="200" height="48" rx="6" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="480" y="130" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="12">Flux</text>
+    <text x="480" y="146" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">reconciles, never by hand</text>
+  </g>
+
+  <text x="636" y="118" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">images</text>
+
+  <g class="box" data-box="node-x86">
+    <rect x="52" y="210" width="412" height="86" rx="6" fill="#0D2230" stroke="#66D6A5" stroke-width="1.5"/>
+    <text x="258" y="236" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="12">x86 node · control plane</text>
+    <text x="258" y="258" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">storage-heavy workloads</text>
+    <text x="258" y="276" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">renders, dashboards, metrics</text>
+  </g>
+
+  <g class="box" data-box="node-arm">
+    <rect x="496" y="210" width="412" height="86" rx="6" fill="#0D2230" stroke="#66D6A5" stroke-width="1.5"/>
+    <text x="702" y="236" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="12">ARM64 node · worker</text>
+    <text x="702" y="258" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">home automation, start page</text>
+    <text x="702" y="276" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="10">arm64 workloads</text>
+  </g>
+
+  <text x="480" y="332" text-anchor="middle" fill="#A9BEC9" font-family="ui-monospace,monospace" font-size="10">25 namespaces · 62 running pods · 14 persistent volumes · K3s v1.34.3</text>
+</svg>
+    </div>
+    <p class="figcap">Figure 1. Provisioning and deployment never share a tool. The counts are read from the
+      cluster, not estimated.</p>
+
+    <div class="block">
+      <h3>Why it exists</h3>
+      <p><code>homelab-core</code> is the machine layer: OS baseline, hardening, firewall rules, K3s
+        install, join and upgrade, node labels. One Taskfile entry point per operation, so rebuilding
+        a node is a command, not a test of memory. It stays private because it encodes host addresses
+        and the shape of the network, and none of that is needed to read the work above it.</p>
+      <p><code>homelab-gitops</code> is the deployment layer. It holds what Flux reconciles: applications,
+        routes, dashboards, alerts and scrape configs. It stays private as well, not because of what the
+        current files contain but because the history maps the live topology one commit at a time.</p>
+      <p><code>homelab-projects</code> is the application layer: small services, each with its own
+        Taskfile, image build and CI job. It holds no hosts and no data, so it is the half that can be
+        published as it stands. Today it is still private.</p>
+      <p><code>homelab_workflows</code> is the fourth repository and not a service at all. It holds the
+        prompts and JSON schemas that workflows fetch at run time. No build, no image, just the contracts.</p>
+      <pre class="tree">homelab-core/              <i>private · the machines</i>
+├── playbooks/             OS baseline, hardening, firewall, K3s install / join / upgrade
+├── Taskfile*.yml          one entry point per operation
+├── cluster-cni/           CNI manifests applied at install time
+└── docs/                  architecture, playbook and task reference
+
+homelab-gitops/            <i>private · the deployment</i>
+├── flux-clusters/         the Kustomization tree Flux reconciles
+├── flux-infrastructure/   core, apps, monitoring, network
+├── tools/                 changelog and cluster repair helpers
+└── docs/                  how the delivery layer is organised
+
+homelab-projects/          <i>private · the applications</i>
+├── media-svc/             render, TTS and mux behind one HTTP surface
+├── reel-mux/              ffmpeg mux endpoint for the reel pipeline
+├── chutes-media-generator/  CLI for image, video and speech generation
+├── ai-responder/          CLI wrapper for multi-model council calls
+└── tools/                 image build and registry helpers
+
+homelab_workflows/         <i>private · prompts and schemas, no service</i>
+├── prompts/               the text workflows fetch at run time
+└── n8n/                   schemas and workflow documentation</pre>
+      <p class="note">Every repository also carries <code>openspec/</code> for change specs and
+        <code>docs/</code> for its own notes. The tree shows the paths that define each layer, not
+        every directory.</p>
+    </div>
+
+    <div class="block">
+      <h3>How it works</h3>
+      <ul>
+        <li><strong>Bootstrap.</strong> One command installs SSH access, then Python and Ansible
+          dependencies, then the K3s server. Joining an agent is a token the control plane generates,
+          so no secret is ever copied into a repo.</li>
+        <li><strong>Scheduling by architecture.</strong> Node labels keep ARM64 workloads off the x86
+          control plane and vice versa. Multi-arch images are the default, not an exception.</li>
+        <li><strong>Reconciliation.</strong> Flux watches the cluster's Kustomization tree and applies
+          Kustomizations; Helm releases are declarative values files. A merged PR is the only way
+          anything changes.</li>
+        <li><strong>Storage.</strong> Persistent volumes are iSCSI targets on a NAS, so a node can be
+          rebuilt without losing data.</li>
+        <li><strong>Observability.</strong> VictoriaMetrics scrapes the cluster and Alertmanager routes
+          to a chat channel. Alert routing exists before the workload that needs it.</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <h3>Lessons learned</h3>
+      <p>Not the YAML. The hard part was deciding where the machine ends and what runs on it begins,
+        then defending that line when the fast path was to SSH in and fix something.</p>
+      <p>The second hard part was storage. Once volumes live on the network, rebuilding a node is free,
+        but the NAS becomes one dependency every workload inherits. That has to be accepted on purpose
+        rather than discovered during the first outage.</p>
+      <p>What I would do differently:</p>
+      <ul>
+        <li>Alerting and backups before the third application, not after the tenth.</li>
+        <li>External secrets from day one. A frozen secret store silently freezes every routing rule
+          that depends on it.</li>
+        <li>Resource limits at the start. Throttling looks exactly like a slow application until you
+          measure it.</li>
+      </ul>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="links">
+      <a href="https://github.com/KuosmTE">GitHub</a>
+      <a href="https://www.linkedin.com/in/teemu-kuosmanen-785186122/">LinkedIn</a>
+    </div>
+    <p>Akaa, Finland. Static HTML, with no framework and no build step.</p>
+  </div>
+</footer>
+
+</body>
+</html>

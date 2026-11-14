@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deal finder · Teemu</title>
+<meta name="description" content="A weekly n8n flow that reads a list of store pages, groups offers by category and posts one Discord thread per category, with a 30-day deal store behind it.">
+<link rel="stylesheet" href="styles.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Teemu · platform engineering">
+<meta property="og:title" content="Deal finder · Teemu">
+<meta property="og:description" content="A weekly n8n flow that reads a list of store pages, groups offers by category and posts one Discord thread per category, with a 30-day deal store behind it.">
+<meta property="og:url" content="https://bittisorvi.github.io/deal-finder.html">
+<meta property="og:image" content="https://bittisorvi.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html">TEEMU<span>·</span>KUOSMANEN</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="homelab.html">Homelab</a></li>
+        <li><a href="agent-harness.html">Agent harness</a></li>
+        <li><a href="media-pipeline.html">Media pipeline</a></li>
+        <li><a href="deal-finder.html" aria-current="page">Deal finder</a></li>
+        <li><a href="small-projects.html">Small projects</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+
+    <div class="hero">
+      <p class="kicker">Case study · n8n</p>
+      <h1>A deal digest that remembers what it already told you.</h1>
+      <p class="lede">Once a week, a list of store pages is checked for offers, grouped by category, and
+        posted to Discord as one thread per category. Scraping is the easy part. The work is staying
+        quiet when nothing has changed.</p>
+    </div>
+
+    <ul class="facts">
+      <li class="fact"><b>45</b><span>nodes in the flow</span></li>
+      <li class="fact"><b>2</b><span>ways to read a store</span></li>
+      <li class="fact"><b>30</b><span>days of deal memory</span></li>
+      <li class="fact"><b>1</b><span>thread per category</span></li>
+    </ul>
+
+    <div class="diagram">
+<svg viewBox="0 0 960 480" role="img" aria-labelledby="diag-deal-title" xmlns="http://www.w3.org/2000/svg">
+  <title id="diag-deal-title">A store sheet feeds two read paths, a Shopify products feed or a scrape and model pass. Both produce one product record, which is filtered, checked against a 30-day deal store, grouped by category and delivered as Discord threads.</title>
+  <defs>
+    <marker id="ah4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#46D7E8"/>
+    </marker>
+    <pattern id="grid4" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#15303F" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+
+  <rect width="960" height="480" fill="#07131E"/>
+  <rect width="960" height="480" fill="url(#grid4)"/>
+
+  <!-- intake -->
+  <path class="ln" d="M220,56 L250,56" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah4)"/>
+  <path class="ln" d="M450,56 L480,56" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah4)"/>
+
+  <!-- one branch, two read paths -->
+  <path class="ln" d="M550,88 L550,104 L505,104 L505,120" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah4)"/>
+  <path class="ln" d="M620,56 L650,56 L650,148 L670,148" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah4)"/>
+
+  <!-- both paths produce one record -->
+  <path class="ln" d="M505,176 L505,210" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah4)"/>
+  <path class="ln" d="M805,176 L805,210" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah4)"/>
+
+  <!-- delivery chain -->
+  <path class="ln" d="M380,238 L130,238 L130,300" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah4)"/>
+  <path class="ln" d="M240,328 L270,328" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah4)"/>
+  <path class="ln" d="M470,328 L500,328" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah4)"/>
+  <path class="ln" d="M680,328 L710,328" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah4)"/>
+  <path class="ln" d="M825,356 L825,390" fill="none" stroke="#46D7E8" stroke-width="1.4" marker-end="url(#ah4)"/>
+
+  <g class="box" data-box="sheet">
+    <rect x="20" y="24" width="200" height="64" rx="6" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="120" y="48" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">store sheet</text>
+    <text x="120" y="66" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">URL · category · keywords</text>
+    <text x="120" y="80" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">minimum discount · notify</text>
+  </g>
+
+  <g class="box" data-box="targets">
+    <rect x="250" y="24" width="200" height="64" rx="6" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="350" y="48" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">one item per target</text>
+    <text x="350" y="66" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">one row per store page</text>
+  </g>
+
+  <g class="box" data-box="branch">
+    <rect x="480" y="24" width="140" height="64" rx="6" fill="#0D2230" stroke="#F0C66E" stroke-width="1.5"/>
+    <text x="550" y="60" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">Shopify?</text>
+  </g>
+
+  <g class="box" data-box="products-json">
+    <rect x="380" y="120" width="250" height="56" rx="6" fill="#0D2230" stroke="#66D6A5" stroke-width="1.5"/>
+    <text x="505" y="144" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">products.json</text>
+    <text x="505" y="160" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">compare-at prices, paginated</text>
+  </g>
+
+  <g class="box" data-box="scrape-model">
+    <rect x="670" y="120" width="270" height="56" rx="6" fill="#0D2230" stroke="#66D6A5" stroke-width="1.5"/>
+    <text x="805" y="144" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">scrape + model</text>
+    <text x="805" y="160" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">page → markdown → product lines</text>
+  </g>
+
+  <g class="box" data-box="record">
+    <rect x="380" y="210" width="510" height="56" rx="6" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="635" y="234" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">one product record</text>
+    <text x="635" y="250" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">store · name · price · old price · discount · stock</text>
+  </g>
+
+  <g class="box" data-box="filter">
+    <rect x="20" y="300" width="220" height="56" rx="6" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="130" y="324" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">keyword filter</text>
+    <text x="130" y="340" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">minimum discount, then sort</text>
+  </g>
+
+  <g class="box" data-box="deal-store">
+    <rect x="270" y="300" width="200" height="56" rx="6" fill="#0D2230" stroke="#66D6A5" stroke-width="1.5"/>
+    <text x="370" y="324" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">deal store</text>
+    <text x="370" y="340" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">key includes both prices</text>
+  </g>
+
+  <g class="box" data-box="group">
+    <rect x="500" y="300" width="180" height="56" rx="6" fill="#0D2230" stroke="#46D7E8" stroke-width="1.5"/>
+    <text x="590" y="324" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">group by category</text>
+    <text x="590" y="340" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">new vs already seen</text>
+  </g>
+
+  <g class="box" data-box="discord">
+    <rect x="710" y="300" width="230" height="56" rx="6" fill="#0D2230" stroke="#F0C66E" stroke-width="1.5"/>
+    <text x="825" y="324" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">Discord</text>
+    <text x="825" y="340" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">one thread per category</text>
+  </g>
+
+  <g class="box" data-box="summary">
+    <rect x="710" y="390" width="230" height="56" rx="6" fill="#0D2230" stroke="#9CB3BF" stroke-width="1.5"/>
+    <text x="825" y="414" text-anchor="middle" fill="#E6F1F6" font-family="ui-monospace,monospace" font-size="11">run summary</text>
+    <text x="825" y="430" text-anchor="middle" fill="#9CB3BF" font-family="ui-monospace,monospace" font-size="9.5">targets ok / failed · new vs seen</text>
+  </g>
+
+  <text x="380" y="466" text-anchor="middle" fill="#8FA6B2" font-family="ui-monospace,monospace" font-size="9.5">a target that fails is named in the summary; the rest of the run still delivers</text>
+</svg>
+    </div>
+    <p class="figcap">Figure 1. One weekly pass: read each store, keep one record per product, and deliver
+      only what the deal store has not seen.</p>
+
+    <div class="block">
+      <h3>Why it exists</h3>
+      <p>Store offers change on their own schedule. Checking a handful of pages by hand every week is
+        the kind of job that gets skipped as soon as the week gets busy, and a feed that repeats itself
+        gets muted within a month. The flow is built around one rule: it speaks only when something
+        changed. Everything else follows from that.</p>
+    </div>
+
+    <div class="block">
+      <h3>How it works</h3>
+      <ul>
+        <li><strong>The sheet is the config.</strong> Each row is a store page with a category, an
+          optional keyword filter, a minimum discount and who to notify. Adding a store is a new row,
+          not a deploy.</li>
+        <li><strong>Two ways to read a store, one record.</strong> A Shopify store exposes
+          <code>products.json</code>, so prices and compare-at prices come straight from the source.
+          Every other store goes through a scraper and a model pass that returns product lines. Both
+          paths produce the same record, and the keyword filter, the minimum discount and the sort run
+          once, after they merge.</li>
+        <li><strong>The deal store is the memory.</strong> Each product gets a key built from the store,
+          the name and both prices. A deal seen in the last 30 days is counted and kept out of the
+          thread. A price change makes a new key and re-alerts on purpose.</li>
+        <li><strong>Delivery is per category.</strong> One header and one thread per category, split
+          under Discord's 2000-character limit without cutting a product line. A category with nothing
+          new still gets a header, so a quiet week is visible rather than silent.</li>
+        <li><strong>Failure stays local.</strong> A store that fails is recorded and named in the run
+          summary while the rest of the run still delivers. If the deal store cannot be read, the run
+          treats everything as new and says so.</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <h3>Lessons learned</h3>
+      <p>The cheapest source wins. <code>products.json</code> is faster, cheaper and more accurate than
+        reading a page, so the model only runs where a store has no feed. Starting with the model would
+        have been the expensive way to learn that.</p>
+      <p>Identity is a design decision. Keying a deal on the store and the name would have silenced
+        price drops forever, because a drop keeps the same name. Including both prices makes a drop look
+        like a new deal, which is exactly what the reader wants.</p>
+      <p>The first version paired scraped results to sheet rows by position. One Shopify row was enough
+        to shift every later row, so products landed under the wrong category header. The fix was to pair
+        on the normalised URL and attach row identity at construction. Position is never an identity.</p>
+      <p>What I would do differently:</p>
+      <ul>
+        <li>Wire every error output on the day the node is added. A silent failure branch is a failure
+          that waits for a quiet week.</li>
+        <li>Keep the graph in Git, not only in n8n's version history.</li>
+        <li>Test the failure path first. The happy path gets exercised every week anyway.</li>
+      </ul>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="links">
+      <a href="https://github.com/KuosmTE">GitHub</a>
+      <a href="https://www.linkedin.com/in/teemu-kuosmanen-785186122/">LinkedIn</a>
+    </div>
+    <p>Akaa, Finland. Static HTML, with no framework and no build step.</p>
+  </div>
+</footer>
+
+</body>
+</html>
