@@ -21,6 +21,10 @@ arch/*.svg            layer diagrams (generalised: no hostnames, addresses or pa
 The site is published from `Bittisorvi/Bittisorvi.github.io`, so it serves at
 `https://bittisorvi.github.io/`. Pages: *Deploy from a branch* → `main` / `(root)`.
 
+## Source
+
+This is the published copy. The working repo is private; changes are synced here.
+
 ## Rules
 
 - Fresh history. Nothing imported from the private repos.
